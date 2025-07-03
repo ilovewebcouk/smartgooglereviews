@@ -1,6 +1,6 @@
-const fetch = require("node-fetch");
-
 exports.handler = async (event) => {
+    const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
     const { place_id } = event.queryStringParameters;
     const apiKey = process.env.GOOGLE_API_KEY;
 
@@ -36,7 +36,7 @@ exports.handler = async (event) => {
     } catch (err) {
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: "Failed to fetch from Google Places API", detail: err.message }),
+            body: JSON.stringify({ error: "Fetch failed", detail: err.message }),
         };
     }
 };
